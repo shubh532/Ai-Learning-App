@@ -1,8 +1,9 @@
 package com.elearning.AILearning.controller;
 
+import com.elearning.AILearning.dto.request.LoginRequest;
 import com.elearning.AILearning.dto.request.RegisterRequest;
-import com.elearning.AILearning.entity.User;
 import com.elearning.AILearning.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest user) {
-        System.out.println("Request Accepted");
-        System.out.println(user.toString());
         authService.register(user);
-        return ResponseEntity.ok("Request Completed");
+        return ResponseEntity.ok("User Registered Successfully");
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @Valid @RequestBody LoginRequest user,
+            HttpServletResponse response) {
+
+        String result = authService.login(user, response);
+
+        return ResponseEntity.ok(result);
     }
 }
