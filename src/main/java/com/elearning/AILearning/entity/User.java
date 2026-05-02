@@ -12,13 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "users",
-        indexes = {
-                @Index(name = "idx_user_email", columnList = "email"),
-                @Index(name = "idx_user_google_id", columnList = "google_id")
-        }
-)
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -58,12 +52,6 @@ public class User {
     @Column(name = "plan")
     private UserPlan plan = UserPlan.FREE;
 
-    @Column(name = "sessions_today")
-    private short sessionsToday = 0;
-
-    @Column(name = "sessions_reset_at")
-    private LocalDateTime sessionsResetAt;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -72,15 +60,13 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    @PreUpdate
-    private void normalizeData() {
-        if (email != null) {
-            email = email.toLowerCase();
-        }
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserProfile profile;
 
-        if (sessionsResetAt == null) {
-            sessionsResetAt = LocalDateTime.now();
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+        if (profile != null) {
+            profile.setUser(this);
         }
     }
 }

@@ -1,28 +1,25 @@
 package com.elearning.AILearning.dto;
 
-import com.elearning.AILearning.enums.AuthProvider;
+import com.elearning.AILearning.enums.CodeLanguage;
 import com.elearning.AILearning.enums.UserPlan;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @Builder
 public class UserProfileDto {
 
-    private UUID id;
-    private String email;
-    private String displayName;
-
-    private boolean emailVerified;
-    private boolean guest;
-
-    private UserPlan plan;
-    private AuthProvider authProvider;
-
-    private short sessionsToday;
-
-    private LocalDateTime createdAt;
+    UUID id;
+    String targetCompanyTier;
+    Integer experienceYears;
+    String targetRole;
+    String preferredLanguage;
+    Integer weeklyGoal;
+    List<String> weakTopics;
+    boolean onboardingDone;
+    LocalDateTime updatedAt;
 }

@@ -3,6 +3,7 @@ package com.elearning.AILearning.service;
 import com.elearning.AILearning.dto.request.LoginRequest;
 import com.elearning.AILearning.dto.request.RegisterRequest;
 import com.elearning.AILearning.entity.User;
+import com.elearning.AILearning.entity.UserProfile;
 import com.elearning.AILearning.exception.UserAlreadyExistsException;
 import com.elearning.AILearning.repository.UserRepository;
 import com.elearning.AILearning.util.JwtUtil;
@@ -11,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -40,14 +40,11 @@ public class AuthService {
 
     public String login(LoginRequest request, HttpServletResponse response) {
 
-        String email = request.getEmail();
-        String password = request.getPassword();
+        User user = userRepo.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
-
-        if (!passwordEncoder.matches(password, user.getPasswordHash())) {
-            throw new RuntimeException("Invalid Password");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+            throw new RuntimeException("Invalid password");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
@@ -57,6 +54,7 @@ public class AuthService {
         cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(24 * 60 * 60);
+
         response.addCookie(cookie);
 
         return "Login Successful";
