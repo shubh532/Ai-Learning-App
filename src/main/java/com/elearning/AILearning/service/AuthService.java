@@ -3,7 +3,6 @@ package com.elearning.AILearning.service;
 import com.elearning.AILearning.dto.request.LoginRequest;
 import com.elearning.AILearning.dto.request.RegisterRequest;
 import com.elearning.AILearning.entity.User;
-import com.elearning.AILearning.entity.UserProfile;
 import com.elearning.AILearning.exception.UserAlreadyExistsException;
 import com.elearning.AILearning.repository.UserRepository;
 import com.elearning.AILearning.util.JwtUtil;

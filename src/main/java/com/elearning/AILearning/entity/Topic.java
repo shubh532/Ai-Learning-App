@@ -1,7 +1,9 @@
 package com.elearning.AILearning.entity;
 
 import com.elearning.AILearning.enums.Difficulty;
+import com.elearning.AILearning.enums.LearnState;
 import com.elearning.AILearning.enums.TopicCategory;
+import com.elearning.AILearning.enums.TopicType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,11 @@ public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id") // Matches pgAdmin [PK] uuid
+    @Column(name = "id")
     private UUID id;
+
+    @Column(name = "parent_id")
+    private UUID parentId;
 
     @Column(unique = true, nullable = false)
     private String slug;
@@ -28,15 +33,26 @@ public class Topic {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    private Difficulty difficulty;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "topic_category")
     private TopicCategory topicCategory;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "topic_type")
+    private TopicType topicType;
+
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty;
+
 
     @Column(name = "is_published")
     private boolean isPublished = false;
 
-    @Column(name = "display_order") // Added to handle the sorting logic
+    @Column(name = "is_standalone")
+    private boolean isStandalone = false;
+
+    @Column(name = "display_order")
     private Integer displayOrder;
+
+    @Column(name = "estimated_time")
+    private Integer estimatedTime;
 }
