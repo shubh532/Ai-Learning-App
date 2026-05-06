@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, UUID> {
     // For Roadmaps: Fetch children for a parent (e.g., all Array sub-topics)
-    List<Topic> findByParentIdOrderByDisplayOrderAsc(UUID parentId);
+    List<Topic> findByParentIdInOrderByDisplayOrderAsc(List<UUID> parentIds);
 
     // For Main Catalogue: Fetch all top-level or standalone modules
     List<Topic> findByIsPublishedTrueAndIsStandaloneTrueOrderByDisplayOrderAsc();

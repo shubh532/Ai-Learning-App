@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, UUID> {
@@ -18,4 +19,11 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, UUID> 
 
     boolean existsByUserId(UUID userId);
 
+    @Query("""
+    SELECT p.topic.id
+    FROM UserTopicProgress p
+    WHERE p.user.id = :userId
+    AND p.topic.id IN :topicIds
+""")
+    Set<UUID> findExistingTopicIds(UUID userId, Set<UUID> topicIds);
 }
