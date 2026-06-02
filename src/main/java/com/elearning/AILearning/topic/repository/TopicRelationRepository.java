@@ -12,11 +12,12 @@ import java.util.UUID;
 public interface TopicRelationRepository extends JpaRepository<TopicRelation, UUID> {
 
     @Query("""
-    SELECT tr
-    FROM TopicRelation tr
-    JOIN FETCH tr.childTopic
-    WHERE tr.parentTopic.id = :parentId
-    ORDER BY tr.displayOrder
-""")
+            SELECT tr
+            FROM TopicRelation tr
+            JOIN FETCH tr.childTopic
+            WHERE tr.parentTopic.id = :parentId
+            AND tr.relationType = 'CONTAINS'
+            ORDER BY tr.displayOrder
+            """)
     List<TopicRelation> findChildren(UUID parentId);
 }

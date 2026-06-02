@@ -4,7 +4,9 @@ import com.elearning.AILearning.exception.ResourceNotFoundException;
 import com.elearning.AILearning.topic.dto.ChildTopicResponse;
 import com.elearning.AILearning.topic.dto.TopicResponse;
 import com.elearning.AILearning.topic.dto.TopicSummaryResponse;
+import com.elearning.AILearning.topic.dto.TopicTreeResponse;
 import com.elearning.AILearning.topic.entity.Topic;
+import com.elearning.AILearning.topic.entity.TopicRelation;
 import com.elearning.AILearning.topic.repository.TopicRelationRepository;
 import com.elearning.AILearning.topic.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +23,24 @@ public class TopicServiceImpl implements TopicService {
     private final TopicRepository topicRepository;
     private final TopicRelationRepository topicRelationRepository;
 
-    @Override
-    public List<TopicSummaryResponse> getAllTopics() {
 
-        return topicRepository.findAll()
-                .stream()
-                .map(this::toSummaryResponse)
-                .toList();
+    private TopicSummaryResponse mapToSummary(Topic topic) {
+
+        return TopicSummaryResponse.builder()
+                .id(topic.getId())
+                .slug(topic.getSlug())
+                .title(topic.getTitle())
+                .build();
     }
 
+    @Override
+    public List<TopicSummaryResponse> getRootTopics() {
+
+        return topicRepository.findRootTopics()
+                .stream()
+                .map(this::mapToSummary)
+                .toList();
+    }
     @Override
     public TopicResponse getTopicBySlug(String slug) {
 
@@ -85,6 +96,45 @@ public class TopicServiceImpl implements TopicService {
                                 .title(relation.getChildTopic().getTitle())
                                 .difficulty(relation.getChildTopic().getDifficulty())
                                 .build())
+                .toList();
+    }
+
+    private ChildTopicResponse mapToChildResponse(
+            TopicRelation relation
+    ) {
+
+        Topic child = relation.getChildTopic();
+
+        return ChildTopicResponse.builder()
+                .id(child.getId())
+                .slug(child.getSlug())
+                .title(child.getTitle())
+                .difficulty(child.getDifficulty())
+                .build();
+    }
+
+    @Override
+    public List<TopicTreeResponse> getTopicTree() {
+
+        List<Topic> rootTopics = topicRepository.findRootTopics();
+
+        return rootTopics.stream()
+                .map(root -> {
+
+                    List<ChildTopicResponse> children =
+                            topicRelationRepository
+                                    .findChildren(root.getId())
+                                    .stream()
+                                    .map(this::mapToChildResponse)
+                                    .toList();
+
+                    return TopicTreeResponse.builder()
+                            .id(root.getId())
+                            .slug(root.getSlug())
+                            .title(root.getTitle())
+                            .children(children)
+                            .build();
+                })
                 .toList();
     }
 }
