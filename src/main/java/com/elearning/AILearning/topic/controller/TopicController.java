@@ -1,5 +1,6 @@
 package com.elearning.AILearning.topic.controller;
 
+import com.elearning.AILearning.topic.dto.ChildTopicResponse;
 import com.elearning.AILearning.topic.dto.TopicResponse;
 import com.elearning.AILearning.topic.dto.TopicSummaryResponse;
 import com.elearning.AILearning.topic.service.TopicService;
@@ -32,8 +33,15 @@ public class TopicController {
         return topicService.getTopicBySlug(slug);
     }
 
+    @GetMapping("/{slug}/children")
+    public List<ChildTopicResponse> getChildren(
+            @PathVariable String slug
+    ) {
+        return topicService.getChildren(slug);
+    }
+
     @GetMapping("/test")
-    public String TopicTest(){
+    public String TopicTest() {
         return "TopicController v2 working";
     }
 }

@@ -1,5 +1,6 @@
 package com.elearning.AILearning.topic.service;
 
+import com.elearning.AILearning.topic.dto.ChildTopicResponse;
 import com.elearning.AILearning.topic.dto.TopicResponse;
 import com.elearning.AILearning.topic.dto.TopicSummaryResponse;
 
@@ -10,4 +11,6 @@ public interface TopicService {
     List<TopicSummaryResponse> getAllTopics();
 
     TopicResponse getTopicBySlug(String slug);
+
+    List<ChildTopicResponse> getChildren(String slug);
 }
