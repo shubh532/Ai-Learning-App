@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -19,8 +23,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public void register(RegisterRequest request) {
+    @Transactional(readOnly = true)
+    public User getUser(UUID userId) {
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
+    @Transactional
+    public void register(RegisterRequest request, HttpServletResponse response) {
         userRepo.findByEmail(request.getEmail()).ifPresent(user -> {
             throw new UserAlreadyExistsException("Email already registered");
         });
@@ -35,10 +45,13 @@ public class AuthService {
                 .build();
 
         userRepo.save(user);
+
+        // Auto-login user upon successful account registration
+        issueAuthCookie(user.getEmail(), response);
     }
 
-    public String login(LoginRequest request, HttpServletResponse response) {
-
+    @Transactional(readOnly = true)
+    public void login(LoginRequest request, HttpServletResponse response) {
         User user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -46,16 +59,18 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        issueAuthCookie(user.getEmail(), response);
+    }
+
+    private void issueAuthCookie(String email, HttpServletResponse response) {
+        String token = jwtUtil.generateToken(email);
 
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);
+        cookie.setSecure(false); // Keep false for localhost HTTP testing; flip to true in production HTTPS
         cookie.setPath("/");
-        cookie.setMaxAge(24 * 60 * 60);
+        cookie.setMaxAge(24 * 60 * 60); // 1-day retention boundary
 
         response.addCookie(cookie);
-
-        return "Login Successful";
     }
 }

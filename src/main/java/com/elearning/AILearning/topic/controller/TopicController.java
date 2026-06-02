@@ -1,0 +1,39 @@
+package com.elearning.AILearning.topic.controller;
+
+import com.elearning.AILearning.topic.dto.TopicResponse;
+import com.elearning.AILearning.topic.dto.TopicSummaryResponse;
+import com.elearning.AILearning.topic.service.TopicService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/topics")
+@RequiredArgsConstructor
+public class TopicController {
+
+    private final TopicService topicService;
+
+    @GetMapping
+    public List<TopicSummaryResponse> getTopics() {
+
+        return topicService.getAllTopics();
+    }
+
+    @GetMapping("/{slug}")
+    public TopicResponse getTopic(
+            @PathVariable String slug
+    ) {
+
+        return topicService.getTopicBySlug(slug);
+    }
+
+    @GetMapping("/test")
+    public String TopicTest(){
+        return "TopicController v2 working";
+    }
+}
