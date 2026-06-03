@@ -2,8 +2,11 @@ package com.elearning.AILearning.topic.entity;
 
 import com.elearning.AILearning.entity.User;
 import com.elearning.AILearning.enums.LessonStatus;
+import com.elearning.AILearning.lesson.dto.LessonContentDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -32,23 +35,20 @@ public class TopicLesson {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "topic_id",
-            nullable = false,
             foreignKey = @ForeignKey(name = "fk_topic_lesson_topic")
     )
-    private com.elearning.AILearning.topic.entity.Topic topic;
+    private Topic topic;
 
     @Column(nullable = false)
     private Short version;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private LessonStatus status;
 
-    @Column(
-            columnDefinition = "jsonb",
-            nullable = false
-    )
-    private String sections;
+    @Column(columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private LessonContentDto sections;
 
     @Column(nullable = false)
     private Boolean isActive;
