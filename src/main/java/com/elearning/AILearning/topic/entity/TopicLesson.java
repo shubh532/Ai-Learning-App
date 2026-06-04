@@ -1,6 +1,6 @@
 package com.elearning.AILearning.topic.entity;
 
-import com.elearning.AILearning.entity.User;
+import com.elearning.AILearning.user.entity.User;
 import com.elearning.AILearning.enums.LessonStatus;
 import com.elearning.AILearning.lesson.dto.LessonContentDto;
 import jakarta.persistence.*;

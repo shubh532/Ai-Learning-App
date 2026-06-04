@@ -1,8 +1,7 @@
-package com.elearning.AILearning.dto.request;
+package com.elearning.AILearning.user.dto;
 
 import com.elearning.AILearning.enums.AuthProvider;
 import com.elearning.AILearning.enums.UserPlan;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
+public class RegisterRequestDto {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid mail format")

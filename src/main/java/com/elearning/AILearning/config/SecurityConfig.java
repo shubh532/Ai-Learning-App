@@ -1,6 +1,6 @@
 package com.elearning.AILearning.config;
 
-import com.elearning.AILearning.util.JwtFilter;
+import com.elearning.AILearning.jwtUitl.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

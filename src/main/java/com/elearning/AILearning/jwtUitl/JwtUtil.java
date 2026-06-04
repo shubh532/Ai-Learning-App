@@ -1,4 +1,4 @@
-package com.elearning.AILearning.util;
+package com.elearning.AILearning.jwtUitl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

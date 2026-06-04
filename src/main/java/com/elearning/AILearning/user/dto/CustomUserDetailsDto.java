@@ -1,6 +1,6 @@
-package com.elearning.AILearning.dto;
+package com.elearning.AILearning.user.dto;
 
-import com.elearning.AILearning.entity.User;
+import com.elearning.AILearning.user.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetailsDto implements UserDetails {
 
     private final UUID id;
     private final String email;
     private final String password;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetailsDto(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPasswordHash();

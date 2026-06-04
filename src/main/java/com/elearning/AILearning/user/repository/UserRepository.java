@@ -1,6 +1,6 @@
-package com.elearning.AILearning.repository;
+package com.elearning.AILearning.user.repository;
 
-import com.elearning.AILearning.entity.User;
+import com.elearning.AILearning.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

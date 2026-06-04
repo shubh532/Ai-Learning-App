@@ -1,8 +1,7 @@
-package com.elearning.AILearning.util;
+package com.elearning.AILearning.jwtUitl;
 
-import com.elearning.AILearning.dto.CustomUserDetails;
-import com.elearning.AILearning.entity.User;
-import com.elearning.AILearning.repository.UserRepository;
+import com.elearning.AILearning.user.dto.CustomUserDetailsDto;
+import com.elearning.AILearning.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
 
         return userRepository.findByEmail(email)
-                .map(CustomUserDetails::new)
+                .map(CustomUserDetailsDto::new)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
     }

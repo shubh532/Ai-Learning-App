@@ -1,8 +1,8 @@
-package com.elearning.AILearning.service;
+package com.elearning.AILearning.user.service;
 
-import com.elearning.AILearning.dto.request.ProfileUpdateRequest;
-import com.elearning.AILearning.entity.UserProfile;
-import com.elearning.AILearning.repository.UserProfileRepository;
+import com.elearning.AILearning.user.dto.ProfileUpdateRequestDto;
+import com.elearning.AILearning.user.entity.UserProfile;
+import com.elearning.AILearning.user.repository.UserProfileRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateProfile(UUID userId, ProfileUpdateRequest req) {
+    public UserProfile updateProfile(UUID userId, ProfileUpdateRequestDto req) {
 
         UserProfile profile = getProfile(userId);
 
@@ -34,7 +34,7 @@ public class UserProfileService {
         return userProfileRepo.save(profile);
     }
 
-    private void applyUpdates(UserProfile profile, ProfileUpdateRequest req) {
+    private void applyUpdates(UserProfile profile, ProfileUpdateRequestDto req) {
         profile.setTargetCompanyTier(req.getTargetCompanyTier());
         profile.setExperienceYears(req.getExperienceYears());
         profile.setTargetRole(req.getTargetRole());

@@ -1,7 +1,5 @@
-package com.elearning.AILearning.dto;
+package com.elearning.AILearning.user.dto;
 
-import com.elearning.AILearning.enums.CodeLanguage;
-import com.elearning.AILearning.enums.UserPlan;
 import lombok.Builder;
 import lombok.Data;
 

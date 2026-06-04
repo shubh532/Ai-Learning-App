@@ -1,8 +1,8 @@
-package com.elearning.AILearning.controller;
+package com.elearning.AILearning.user.controller;
 
-import com.elearning.AILearning.dto.request.LoginRequest;
-import com.elearning.AILearning.dto.request.RegisterRequest;
-import com.elearning.AILearning.service.AuthService;
+import com.elearning.AILearning.user.dto.LoginRequestDto;
+import com.elearning.AILearning.user.dto.RegisterRequestDto;
+import com.elearning.AILearning.user.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
@@ -32,7 +32,7 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(
-            @Valid @RequestBody RegisterRequest request,
+            @Valid @RequestBody RegisterRequestDto request,
             HttpServletResponse response) {
 
         log.info("Processing registration request for email: {}", request.getEmail());
@@ -51,7 +51,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(
-            @Valid @RequestBody LoginRequest request,
+            @Valid @RequestBody LoginRequestDto request,
             HttpServletResponse response) {
 
         log.info("Processing login verification request for email: {}", request.getEmail());

@@ -1,6 +1,6 @@
-package com.elearning.AILearning.repository;
+package com.elearning.AILearning.user.repository;
 
-import com.elearning.AILearning.entity.UserProfile;
+import com.elearning.AILearning.user.entity.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

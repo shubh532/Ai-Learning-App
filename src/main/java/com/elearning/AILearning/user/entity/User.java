@@ -1,4 +1,4 @@
-package com.elearning.AILearning.entity;
+package com.elearning.AILearning.user.entity;
 
 import com.elearning.AILearning.enums.AuthProvider;
 import com.elearning.AILearning.enums.UserPlan;

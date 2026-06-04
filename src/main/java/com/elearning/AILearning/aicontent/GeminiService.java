@@ -1,4 +1,4 @@
-package com.elearning.AILearning.service;
+package com.elearning.AILearning.aicontent;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

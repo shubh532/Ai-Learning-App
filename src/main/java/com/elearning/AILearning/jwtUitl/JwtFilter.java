@@ -1,4 +1,4 @@
-package com.elearning.AILearning.util;
+package com.elearning.AILearning.jwtUitl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

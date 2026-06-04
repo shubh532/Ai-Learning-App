@@ -1,4 +1,4 @@
-package com.elearning.AILearning.dto.request;
+package com.elearning.AILearning.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginRequest {
+public class LoginRequestDto {
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid mail format")
     private String email;

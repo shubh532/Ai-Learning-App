@@ -1,4 +1,4 @@
-package com.elearning.AILearning.dto.request;
+package com.elearning.AILearning.user.dto;
 
 import com.elearning.AILearning.enums.CodeLanguage;
 import jakarta.validation.constraints.Max;
@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProfileUpdateRequest {
+public class ProfileUpdateRequestDto {
 
     private String targetCompanyTier;
 

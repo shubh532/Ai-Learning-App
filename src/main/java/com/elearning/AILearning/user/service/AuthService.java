@@ -1,11 +1,11 @@
-package com.elearning.AILearning.service;
+package com.elearning.AILearning.user.service;
 
-import com.elearning.AILearning.dto.request.LoginRequest;
-import com.elearning.AILearning.dto.request.RegisterRequest;
-import com.elearning.AILearning.entity.User;
+import com.elearning.AILearning.user.dto.LoginRequestDto;
+import com.elearning.AILearning.user.dto.RegisterRequestDto;
+import com.elearning.AILearning.user.entity.User;
 import com.elearning.AILearning.exception.UserAlreadyExistsException;
-import com.elearning.AILearning.repository.UserRepository;
-import com.elearning.AILearning.util.JwtUtil;
+import com.elearning.AILearning.user.repository.UserRepository;
+import com.elearning.AILearning.jwtUitl.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void register(RegisterRequest request, HttpServletResponse response) {
+    public void register(RegisterRequestDto request, HttpServletResponse response) {
         userRepo.findByEmail(request.getEmail()).ifPresent(user -> {
             throw new UserAlreadyExistsException("Email already registered");
         });
@@ -51,7 +51,7 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public void login(LoginRequest request, HttpServletResponse response) {
+    public void login(LoginRequestDto request, HttpServletResponse response) {
         User user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
