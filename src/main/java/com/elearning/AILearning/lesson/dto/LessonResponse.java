@@ -1,5 +1,7 @@
 package com.elearning.AILearning.lesson.dto;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.*;
 
 import java.util.UUID;
@@ -15,6 +17,5 @@ public class LessonResponse {
     private UUID topicId;
 
     private String topicTitle;
-
-    private LessonContentDto content;
+    private JsonNode content;
 }

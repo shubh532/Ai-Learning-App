@@ -2,8 +2,11 @@ package com.elearning.AILearning.lesson.service;
 
 import com.elearning.AILearning.lesson.dto.LessonResponse;
 
+import java.util.UUID;
+
 public interface LessonService {
-    LessonResponse getLesson(
-            String topicSlug
-    );
+
+    LessonResponse generateAndSaveLesson(UUID topicId);
+    void publishLesson(UUID topicId);
+
 }

@@ -3,6 +3,7 @@ package com.elearning.AILearning.topic.entity;
 import com.elearning.AILearning.user.entity.User;
 import com.elearning.AILearning.enums.LessonStatus;
 import com.elearning.AILearning.lesson.dto.LessonContentDto;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -40,7 +41,7 @@ public class TopicLesson {
     private Topic topic;
 
     @Column(nullable = false)
-    private Short version;
+    private Integer version;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -48,7 +49,7 @@ public class TopicLesson {
 
     @Column(columnDefinition = "jsonb")
     @JdbcTypeCode(SqlTypes.JSON)
-    private LessonContentDto sections;
+    private JsonNode sections;
 
     @Column(nullable = false)
     private Boolean isActive;
