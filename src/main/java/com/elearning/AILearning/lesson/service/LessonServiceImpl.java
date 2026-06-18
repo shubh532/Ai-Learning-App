@@ -4,6 +4,7 @@ import com.elearning.AILearning.aicontent.AIContentGenerator;
 import com.elearning.AILearning.enums.LessonStatus;
 import com.elearning.AILearning.exception.ResourceNotFoundException;
 import com.elearning.AILearning.lesson.dto.LessonResponse;
+import com.elearning.AILearning.lesson.dto.SaveLessonDraftRequest;
 import com.elearning.AILearning.topic.entity.Topic;
 import com.elearning.AILearning.topic.entity.TopicLesson;
 import com.elearning.AILearning.topic.repository.TopicLessonRepository;
@@ -19,15 +20,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class LessonServiceImpl
-        implements LessonService {
+public class LessonServiceImpl implements LessonService {
 
     private final TopicRepository topicRepository;
     private final TopicLessonRepository lessonRepository;
     private final AIContentGenerator aiContentGenerator;
 
     @Override
-    public LessonResponse generateAndSaveLesson(UUID topicId) {
+    public LessonResponse generateLesson(UUID topicId) {
 
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() ->
@@ -37,22 +37,16 @@ public class LessonServiceImpl
         JsonNode content =
                 aiContentGenerator.generateLesson(topic);
 
-        Integer nextVersion =
-                getNextVersion(topicId);
-
         TopicLesson lesson =
                 TopicLesson.builder()
                         .topic(topic)
-                        .version(nextVersion)
                         .status(LessonStatus.DRAFT)
                         .sections(content)
                         .isActive(false)
                         .aiModelUsed("gemini")
                         .build();
 
-//        lesson = lessonRepository.save(lesson);
 
-        System.out.println("Lesson Service: "+ lesson.toString());
         return LessonResponse.builder()
                 .lessonId(lesson.getId())
                 .topicId(topic.getId())
@@ -70,9 +64,7 @@ public class LessonServiceImpl
     }
 
     @Transactional
-    public void publishLesson(
-            UUID lessonId
-    ) {
+    public void publishLesson(UUID lessonId) {
 
         TopicLesson lesson =
                 lessonRepository.findById(
@@ -85,11 +77,37 @@ public class LessonServiceImpl
                 );
 
         lesson.setIsActive(true);
-        lesson.setStatus(
-                LessonStatus.PUBLISHED
+        lesson.setStatus(LessonStatus.PUBLISHED);
+        lesson.setPublishedAt(LocalDateTime.now());
+    }
+
+    //    @Transactional
+    public String draftLesson(SaveLessonDraftRequest request) {
+
+        Topic topic = topicRepository.findById(request.getTopicId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Topic Not Found")
+                );
+
+        Integer version = getNextVersion(
+                topic.getId()
         );
-        lesson.setPublishedAt(
-                LocalDateTime.now()
-        );
+
+        TopicLesson topicLesson = TopicLesson.builder()
+                .topic(topic)
+                .version(version)
+                .status(LessonStatus.DRAFT)
+                .sections(request.getContent())
+                .isActive(false)
+                .aiModelUsed(
+                        request.getAiModelUsed()
+                )
+                .build();
+
+        lessonRepository.save(topicLesson);
+
+        return "Lesson draft saved successfully";
+
+
     }
 }
