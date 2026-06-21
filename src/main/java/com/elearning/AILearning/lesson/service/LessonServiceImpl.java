@@ -96,7 +96,7 @@ public class LessonServiceImpl implements LessonService {
         TopicLesson topicLesson = TopicLesson.builder()
                 .topic(topic)
                 .version(version)
-                .status(LessonStatus.DRAFT)
+                .status(request.getStatus())
                 .sections(request.getContent())
                 .isActive(false)
                 .aiModelUsed(

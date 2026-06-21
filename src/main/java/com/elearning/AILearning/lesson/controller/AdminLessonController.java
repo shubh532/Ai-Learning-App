@@ -16,7 +16,7 @@ public class AdminLessonController {
 
     private final LessonService lessonService;
 
-    @PostMapping("/generate/{topicId}")
+    @PostMapping("/generate-preview/{topicId}")
     public ResponseEntity<LessonResponse>
     generateLesson(@PathVariable UUID topicId) {
         LessonResponse response = lessonService.generateLesson(topicId);

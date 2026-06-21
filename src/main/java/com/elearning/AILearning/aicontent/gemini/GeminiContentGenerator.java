@@ -83,8 +83,6 @@ public class GeminiContentGenerator implements AIContentGenerator {
 
         String prompt = buildPrompt(topic);
 
-        System.out.println("Gemini Prompt: " + prompt);
-
         GeminiRequestDto request =
                 GeminiRequestDto.builder()
                         .contents(
@@ -115,12 +113,12 @@ public class GeminiContentGenerator implements AIContentGenerator {
                         .bodyToMono(GeminiResponseDto.class)
                         .block();
 
-        if (response == null
+        if (
+                response == null
                 || response.getCandidates() == null
-                || response.getCandidates().isEmpty()) {
-
-            throw new RuntimeException("No response returned from Gemini");
-        }
+                || response.getCandidates().isEmpty()
+        )
+        {throw new RuntimeException("No response returned from Gemini");  }
 
         String lessonJson =
                 response.getCandidates()
@@ -129,8 +127,6 @@ public class GeminiContentGenerator implements AIContentGenerator {
                         .getParts()
                         .get(0)
                         .getText();
-
-        log.info("Raw Gemini Response:\n{}", lessonJson);
 
         try {
 

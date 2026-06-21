@@ -1,5 +1,6 @@
 package com.elearning.AILearning.lesson.dto;
 
+import com.elearning.AILearning.enums.LessonStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,4 +20,6 @@ public class SaveLessonDraftRequest {
     private JsonNode content;
 
     private String aiModelUsed;
+
+    private LessonStatus Status;
 }
